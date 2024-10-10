@@ -26,6 +26,10 @@ const UserProfile = () => {
         fetchUsers();
     }, []);
 
+    const handleDelete = (id) => {
+        setUsers(users.filter(user => user.id !== id));
+    };
+
     if (loading) return <StyledMessage>Loading...</StyledMessage>;
     if (error) return <StyledMessage>{error}</StyledMessage>;
     if (!users.length) return <StyledMessage>No users found</StyledMessage>;
@@ -39,7 +43,8 @@ const UserProfile = () => {
                         <UserCard key={user.id}>
                             <p><strong>Username:</strong> {user.login}</p>
                             <img src={user.avatar_url} alt={user.login} width="100" />
-                            <p><strong>ID:</strong> {user.id}</p>
+                            <p><strong>ID assigned:</strong> {user.id}</p>
+                            <DeleteButton onClick={() => handleDelete(user.id)}>Delete</DeleteButton>
                         </UserCard>
                     ))}
                 </UserList>
@@ -54,7 +59,7 @@ const PageContainer = styled.div`
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: rgb(181, 219, 255);
+    background-image: url('../src/assets/Screenshot.png');
 `;
 
 const InfoContainer = styled.div`
@@ -85,6 +90,21 @@ const UserCard = styled.div`
     margin: 1rem;
     width: 200px;
     text-align: center;
+`;
+
+const DeleteButton = styled.button`
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        background-color: green;
+    }
 `;
 
 const BackButton = styled(Link)`
